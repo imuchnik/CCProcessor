@@ -1,5 +1,24 @@
 # Basic Credit Card Processing
------
+
+
+## Dependencies
+ ~Python 2.7
+
+## To Run:
+
+1. cd braintree/CreditCardProvider
+2. Make sure CCProcessorScript is executable
+3. ```./CCProcessorScript.py path/to/file or ./CCProcessorScript.py<path/to/file``` 
+
+
+## To Run Tests
+
+```
+ python -m unittest discover -v
+
+```
+
+
 
 Imagine that you're writing software for a credit card provider. Implement a
 program that will add new credit card accounts, process charges and credits
@@ -78,4 +97,4 @@ Thank you!
 
 **Note: this information is confidential. It is prohibited to share, post online
 or otherwise publicize without Braintree's prior written consent.**
-Hey Irina,
+
