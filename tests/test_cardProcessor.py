@@ -14,23 +14,23 @@ class TestCardProcessor(TestCase):
 
     def test_processEntry(self):
         self.cardprocessor.process_entry('Add Lisa 5454545454545454 $3000')
-        self.assertEquals(len(self.cardprocessor.cardActivity), 1)
+        self.assertEquals(len(self.cardprocessor.card_activity), 1)
         self.cardprocessor.process_entry('Charge Lisa $300')
-        self.assertEquals(self.cardprocessor.cardActivity['Lisa'][2], 300)
+        self.assertEquals(self.cardprocessor.card_activity['Lisa'][2], 300)
 
-    def test_Add(self):
-        self.cardprocessor.Add(['Add', 'Lisa', 5454545454545454, '$3000'])
-        self.assertEquals(len(self.cardprocessor.cardActivity), 1)
+    def test_add(self):
+        self.cardprocessor.add(['Add', 'Lisa', 5454545454545454, '$3000'])
+        self.assertEquals(len(self.cardprocessor.card_activity), 1)
 
     def test_process_transaction(self):
-        self.cardprocessor.Add(['Add', 'Lisa', 5454545454545454, '$3000'])
-        self.assertEquals(self.cardprocessor.cardActivity['Lisa'][2], 0)
+        self.cardprocessor.add(['Add', 'Lisa', 5454545454545454, '$3000'])
+        self.assertEquals(self.cardprocessor.card_activity['Lisa'][2], 0)
         self.cardprocessor.process_transaction(['Charge', 'Lisa', '$300'])
-        self.assertEquals(self.cardprocessor.cardActivity['Lisa'][2], 300)
+        self.assertEquals(self.cardprocessor.card_activity['Lisa'][2], 300)
         self.cardprocessor.process_transaction(['Credit', 'Lisa', '$100'])
-        self.assertEquals(self.cardprocessor.cardActivity['Lisa'][2], 200)
+        self.assertEquals(self.cardprocessor.card_activity['Lisa'][2], 200)
         self.cardprocessor.process_transaction(['Charge', 'Lisa', '$3000'])
-        self.assertEquals(self.cardprocessor.cardActivity['Lisa'][2], 200)
+        self.assertEquals(self.cardprocessor.card_activity['Lisa'][2], 200)
 
     def test_is_valid_entry(self):
         cardprocessor = CardProcessor(['Add Quincy 1234567890123456 $2000'])

@@ -1,15 +1,26 @@
 import operator
 from decimal import Decimal
 
+CREDIT_ACTION = "Credit"
+
+CHARGE_ACTION = "Charge"
+
+DOLLAR_SIGN = "$"
+
+ERROR = "error"
+
 
 class CardProcessor:
-    def __init__(self, lines):
-        self.cardActivity = {}
-        for line in lines:
-            self.process_entry(line)
+    def __init__(self, input_lines):
+        """Initialize data structures and kick off processing"""
+        self.card_activity = {}
+        for input_line in input_lines:
+            self.process_entry(input_line)
 
     # From Wikipedia
     def luhn_checksum(self, card_number):
+        """Check if card is Luhn10 checksum valid"""
+
         def digits_of(n):
             return [int(d) for d in str(n)]
 
@@ -23,56 +34,60 @@ class CardProcessor:
         return checksum % 10
 
     def is_luhn_valid(self, card_number):
+        """Wrapper for checksum validation"""
+
         return self.luhn_checksum(card_number) == 0
 
     def process_entry(self, entry):
+        """ Process each line and take appropriate action"""
+
         entry = entry.split(' ')
         action_map = {
-            "Add": self.Add,
-            "Charge": self.Charge,
-            "Credit": self.Credit,
+            "Add": self.add,
+            "Charge": self.process_transaction,
+            "Credit": self.process_transaction,
         }
         action_map.get(entry[0])(entry)
 
-    def Add(self, entry):
+    def add(self, entry):
+        """ Add card to internal data structure, if the card number is valid"""
+
         action, name, cardNumber, limit = entry
         balance = 0
         # what happens if name is a duplicate.
         if self.is_luhn_valid(cardNumber):
-            self.cardActivity[name] = [cardNumber, Decimal(limit[1:]), balance]
+            self.card_activity[name] = [cardNumber, Decimal(limit[1:]), balance]
         else:
-            self.cardActivity[name] = "error"
-
-    def Charge(self, entry):
-        self.process_transaction(entry)
-
-    def Credit(self, entry):
-        self.process_transaction(entry)
+            self.card_activity[name] = ERROR
 
     def process_transaction(self, entry):
+        """ Process "Charge or Credit"""
+
         if (self.is_valid_entry(entry)):
             action, name, amount = entry
-            cardNumber, limit, balance = self.cardActivity[name]
+            cardNumber, limit, balance = self.card_activity[name]
             amount = Decimal(amount[1:])
-            if action == "Charge":
+            if action == CHARGE_ACTION:
                 if not (balance + amount) > limit:
                     total = balance + amount
                 else:
                     return
-            elif action == "Credit":
+            elif action == CREDIT_ACTION:
                 total = balance - amount
 
-            self.cardActivity[name] = [cardNumber, limit, total]
+            self.card_activity[name] = [cardNumber, limit, total]
         else:
             pass
 
     def is_valid_entry(self, entry):
-        return self.cardActivity[entry[1]] != "error"
+        """  Validate card number was valid when it was added    """
+
+        return self.card_activity[entry[1]] != ERROR
 
     def display_statement(self):
+        """ Print the final statement """
 
-        for entry in sorted(self.cardActivity, key=operator.itemgetter(0)):
+        for entry in sorted(self.card_activity, key=operator.itemgetter(0)):
             name = entry
-            value = self.cardActivity[entry] if self.cardActivity[entry] == "error" else "$" + str(
-                self.cardActivity[entry][2])
+            value = self.card_activity[entry] if self.card_activity[entry] == ERROR else DOLLAR_SIGN + str(self.card_activity[entry][2])
             print(name + ": " + value)
