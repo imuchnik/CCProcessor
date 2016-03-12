@@ -1,6 +1,5 @@
 ERROR = "error"
 
-
 class CreditCard:
     """A consumer credit card."""
 
@@ -57,7 +56,7 @@ class CreditCard:
     def charge(self, amount):
         """ Adds charge to the credit card"""
 
-        if self.is_valid_entry() and not (self.balance + amount) > self.limit:
+        if self.is_valid_entry() and not((self.balance + amount) > self.limit):
                     self.balance = self.balance + amount;
         else:
             return

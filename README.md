@@ -1,8 +1,30 @@
 # Basic Credit Card Processing
 
+## Overview/Design Decision
+
+1. **_Language_** - I played and implemented the solution in a couple of other languages ( groovy, nodejs), but in the end liked python the 
+     most and settled on it as my choice. I chose python because it is both well suited as a scripting language (for runnning as an executable)
+     as well as supporting object oriented design, allowing for separation of concerns. In addition, it has nice libraries for processing
+     command line args, has robust testing support and lends itself well to readability. 
+     
+2. **_Design decisions_** - the exersize is pretty straight forward. I have divided it into 3 concrete functions:
+<br/>
+* **CCProcessorScript.py** - is an executable file, that ingests command line arguments (or STDIN, parses the the input and provides it 
+to CreditCardProcessor class in the format that is expected. It also calls for display function to print out the result. 
+
+* **CreditCard.py** - Credit card account abstraction. Handles all card functions and transactions. Separated to for modularity, reuse 
+    and better code organization
+
+* **CardProcessor.py** - Responsible for processing each entry of the input,invoke apporopriate action,
+     keep session state and display the result. 
+
+* I chose a simple Hash table  as a data structure to keep track of current active cards. The key is the customer name. 
+This desicsion is dictated by the input example. The credit and charges  provide only a name as means of locating the card account. 
+    
 
 ## Dependencies
  ~Python 2.7
+ All the other dependendencies are included with Python. No additional dependencies need to be installed. 
 
 ## To Run:
 
@@ -17,8 +39,6 @@
  python -m unittest discover -v
 
 ```
-
-
 
 Imagine that you're writing software for a credit card provider. Implement a
 program that will add new credit card accounts, process charges and credits

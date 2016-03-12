@@ -3,9 +3,7 @@ from decimal import Decimal
 from CreditCard import CreditCard
 
 CREDIT_ACTION = "Credit"
-
 CHARGE_ACTION = "Charge"
-
 DOLLAR_SIGN = "$"
 ERROR = "error"
 
@@ -15,6 +13,7 @@ ERROR = "error"
 class CardProcessor:
     def __init__(self, input_lines):
         """Initialize data structures and kick off processing"""
+
         self.card_activity = {}
         for input_line in input_lines:
             self.process_entry(input_line)
@@ -34,7 +33,7 @@ class CardProcessor:
         """ Add card to internal data structure, if the card number is valid"""
 
         action, name, cardNumber, limit = entry
-        self.card_activity[name] = CreditCard(name, cardNumber, limit)
+        self.card_activity[name] = CreditCard(name, cardNumber, Decimal(limit[1:]))
 
 
     def process_transaction(self, entry):

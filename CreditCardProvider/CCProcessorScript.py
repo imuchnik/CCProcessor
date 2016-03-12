@@ -2,9 +2,10 @@
 """:"
 exec python $0 ${1+"$@"}
 """
-from CardProcessor import CardProcessor
-import argparse
 import sys
+import argparse
+from CardProcessor import CardProcessor
+
 parser = argparse.ArgumentParser()
 parser.add_argument('infile', nargs='?', type=argparse.FileType('r'),
                     default=sys.stdin)
