@@ -102,19 +102,8 @@ Quincy: error
 Tom: $500
 ```
 
-Implement your solution in any programming language you wish, but keep in mind
-we may ask you to explain or extend your code. Please write automated tests
-and include them with your submission.
 
-In addition to your code and tests, please also include a README that explains:
 
-- An overview of your design decisions
-- Why you picked the programming language you used
-- How to run your code and tests, including how to install any dependencies
-your code may have.
 
-Thank you!
 
-**Note: this information is confidential. It is prohibited to share, post online
-or otherwise publicize without Braintree's prior written consent.**
 
